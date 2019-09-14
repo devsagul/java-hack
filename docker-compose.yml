@@ -16,8 +16,9 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: secrret
+      POSTGRES_USER: secret
       POSTGRES_PASSWORD: secret
+      POSTGRES_DB: db
 
 volumes:
   db-data:

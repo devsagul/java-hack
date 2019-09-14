@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Acinator</title>
-    <link href="styles/style.css" rel="stylesheet" type="text/css">
+    <link href="/styles/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="body">
@@ -13,6 +13,6 @@
     </div>
 </div>
 
-<script src="js/index.js"></script>
+<script src="../js/index.js"></script>
 </body>
 </html>

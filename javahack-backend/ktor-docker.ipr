@@ -153,6 +153,15 @@
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-client-core-jvm/1.2.4/d8c6aae802af0e2cbcb8b7609e2c72b729f192d2/ktor-client-core-jvm-1.2.4-sources.jar!/" />
       </SOURCES>
     </library>
+    <library name="Gradle: io.ktor:ktor-freemarker:1.2.4">
+      <CLASSES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-freemarker/1.2.4/e5d5db3845b5f9dcc877bbb941bbac7bbe23aeba/ktor-freemarker-1.2.4.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-freemarker/1.2.4/b34a67360ee1f8dce1a903cc9ace45fad4706d94/ktor-freemarker-1.2.4-sources.jar!/" />
+      </SOURCES>
+    </library>
     <library name="Gradle: io.ktor:ktor-http-cio-jvm:1.2.4">
       <CLASSES>
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.ktor/ktor-http-cio-jvm/1.2.4/9f79b1101782c2476bc69fc418561139890b12b4/ktor-http-cio-jvm-1.2.4.jar!/" />

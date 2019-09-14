@@ -29,8 +29,8 @@ dependencies {
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.28'
     implementation "io.ktor:ktor-jackson:$ktor_version"
     implementation "io.ktor:ktor-auth:$ktor_version"
+    implementation "io.ktor:ktor-freemarker:$ktor_version"
     implementation 'org.jetbrains.exposed:exposed:0.17.3'
-    implementation group: 'org.freemarker', name: 'freemarker', version: '2.3.29'
     implementation "org.postgresql:postgresql:42.2.2"
 }
 

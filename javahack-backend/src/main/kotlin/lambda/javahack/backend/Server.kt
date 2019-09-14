@@ -1,10 +1,15 @@
 package lambda.javahack.backend
 
+import freemarker.cache.ClassTemplateLoader
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
+import io.ktor.freemarker.FreeMarker
+import io.ktor.freemarker.FreeMarkerContent
 import io.ktor.http.ContentType
+import io.ktor.http.content.resources
+import io.ktor.http.content.static
 import io.ktor.request.receiveParameters
 import io.ktor.response.respond
 import io.ktor.response.respondText
@@ -30,6 +35,9 @@ fun main(args: Array<String>) {
         install(ContentNegotiation) {
             jackson {}
         }
+        install(FreeMarker) {
+            templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
+        }
         install(Sessions) {
             cookie<LoginSession>("LOGIN_SESSION", SessionStorageMemory())
         }
@@ -44,8 +52,17 @@ fun main(args: Array<String>) {
             }
         }
         routing {
+            static("/") {
+                resources("static")
+            }
             get("/") {
-                call.respondText("OK")
+                call.respond(FreeMarkerContent("index.ftl",null,""))
+            }
+            get("/auth") {
+                call.respond(FreeMarkerContent("auth.ftl",null,""))
+            }
+            get("/reg") {
+                call.respond(FreeMarkerContent("reg.ftl",null,""))
             }
             get("/test") {
                 val json = mapOf<String,Any>("question" to "Ты пишешь на котлине?", "id" to 0, "childs"

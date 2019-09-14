@@ -25,6 +25,8 @@ import io.ktor.request.receiveText
 import io.ktor.response.*
 import io.ktor.routing.route
 import io.ktor.sessions.*
+import io.ktor.util.getDigestFunction
+import java.util.*
 
 data class LoginSession(val user: String, var token: String = "NO_TOKEN")
 
@@ -69,23 +71,15 @@ fun main(args: Array<String>) {
                 to listOf<Any>(mapOf("id" to 1, "answer" to "да"), mapOf("id" to 2, "answer" to "нет")))
                 call.respond(json)
             }
-            get("/login") {
-                val html = """
-            <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
-            <div>User</div>
-            <div><input type="text" name="user" /></div>
-            <div>Password:</div>
-            <div><input type="password" name="password" /></div>
-            <div><input type="submit" value="Add" /></div>
-        </form>
-            """
-                call.respondText(html, ContentType.Text.Html)
-            }
             authenticate("form") {
-                post("/login") {
+                post("/auth") {
                     val principal = call.authentication.principal<UserIdPrincipal>()
-                    call.sessions.set(LoginSession(principal!!.name))
-                    call.respondRedirect("/")
+                    try {
+                        call.sessions.set(LoginSession(principal!!.name))
+                        call.respondRedirect("/")
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
                 get("/protected") {
                     val session = call.sessions.get<LoginSession>()

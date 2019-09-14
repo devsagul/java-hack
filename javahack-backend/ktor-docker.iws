@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="89da130b-6139-4d9a-b0a5-8614e567fc91" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktor-docker.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/ktor-docker.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ktor-docker.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ktor-docker.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/none/Server.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/lambda/javahack/backend/Server.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/none/AppTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/lambda/javahack/backend/AppTest.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/lambda/javahack/backend/Server.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/lambda/javahack/backend/Server.kt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -76,6 +76,17 @@
                 <item name="javahack-backend" type="f1a62948:ProjectNode" />
                 <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
               </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="javahack-backend" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="javahack-backend" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
+              </path>
             </expand>
             <select />
           </tree_state>
@@ -140,6 +151,25 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="java-hack [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="run" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <option name="TEST_OBJECT" value="class" />
       <option name="VM_PARAMETERS" />
@@ -163,6 +193,11 @@
         <option name="BuildArtifacts" enabled="false" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.java-hack [run]" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />

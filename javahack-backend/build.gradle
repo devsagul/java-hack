@@ -28,6 +28,7 @@ dependencies {
     implementation "io.ktor:ktor-server-netty:$ktor_version"
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.28'
     implementation "io.ktor:ktor-jackson:$ktor_version"
+    implementation "io.ktor:ktor-auth:$ktor_version"
 }
 
 task fatJar(type: Jar) {

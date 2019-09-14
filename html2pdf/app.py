@@ -8,7 +8,6 @@ import re
 import tempfile
 from pybars import Compiler
 import PyPDF2
-import signal
 
 from flask import Flask, Blueprint
 from threading import Lock
@@ -53,10 +52,10 @@ def download(target_path, template_file, context):
     save_as_pdf(driver, target_path)
     mutex.release()
 
-def render_template(template, context):
+def render_template(template, context, name='document.pdf'):
     f = tempfile.NamedTemporaryFile(mode='w',delete=True, encoding='utf-8')
     download(f.name, template, context)
-    res = send_file(f.name, attachment_filename='application.pdf')
+    res = send_file(f.name, attachment_filename=name)
     f.close()
     return res
 
@@ -64,13 +63,13 @@ def render_template(template, context):
 def kudir():
     context = request.form
     template = '/app/templates/kudir.html'
-    return render_template(template, context)
+    return render_template(template, context, 'КУДиР.pdf')
 
 @app.route('/declaration', methods = ['POST'])
 def declaration():
     context = request.form
     template = '/app/templates/declaration.html'
-    return render_template(template, context)
+    return render_template(template, context, 'Декларация.pdf')
 
 if __name__ == "__main__":
     app.run(debug=True, host='html2pdf')

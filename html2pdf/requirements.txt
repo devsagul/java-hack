@@ -1,0 +1,6 @@
+werkzeug==0.14.1
+flask
+pdfkit
+pybars3
+pypdf2
+flask_wtf

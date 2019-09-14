@@ -23,12 +23,12 @@ import io.ktor.sessions.*
 
 data class LoginSession(val user: String, var token: String = "NO_TOKEN")
 
+val db = DBHelper()
+
 fun main(args: Array<String>) {
     val server = embeddedServer(Netty, 8080) {
         install(ContentNegotiation) {
-            jackson {
-                // Configure Jackson's ObjectMapper here
-            }
+            jackson {}
         }
         install(Sessions) {
             cookie<LoginSession>("LOGIN_SESSION", SessionStorageMemory())
@@ -40,7 +40,7 @@ fun main(args: Array<String>) {
                 challenge {
                     FormAuthChallenge.Redirect{"/login"}
                 }
-                validate { if (it.password == "${it.name}123") UserIdPrincipal(it.name) else null }
+                validate { if (db.validateCredentials(it.name,it.password)) UserIdPrincipal(it.name) else null }
             }
         }
         routing {

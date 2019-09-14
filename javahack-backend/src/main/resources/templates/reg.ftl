@@ -19,9 +19,6 @@
                         <input class="login-input" type="text" placeholder="username" id="login" name="login">
                     </div>
                     <div class="adm-login-row">
-<<<<<<< HEAD
-                        <input class="login-input" type="text" placeholder="ФИО" id="FIO" name="FIO">
-=======
                         <input class="login-input" type="text" placeholder="Фамилия" id="FIO" name="lastname">
                     </div>
                     <div class="adm-login-row">
@@ -29,7 +26,6 @@
                     </div>
                     <div class="adm-login-row">
                         <input class="login-input" type="text" placeholder="Отчество" id="FIO" name="middlename">
->>>>>>> b12a38482d64d9f07b203198321a4daa8d620363
                     </div>
                     <div class="adm-login-row">
                         <input class="login-input" type="text" placeholder="INN" id="INN" name="INN">

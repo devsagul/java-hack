@@ -28,16 +28,29 @@ class DBHelper {
         }
         return  Util.getSHA256String(password) == dbPass
     }
-    fun addUser(login: String, pwd: String, FIO: String, INN: String, codeNalog: String, activity: String){
-        transaction {
-            val id = Accounts.insertIgnore {
-                it[_phone] = login
-                it[_password] = Util.getSHA256String(pwd)
-            } get Accounts._id
-            IPSix.insertIgnore {
-                it[_id] = id
+    fun addUser(login: String, pwd: String, lastname: String, middlename: String, firstname: String, INN: String,
+                codeNalog: String, activity: String): Boolean {
+        try {
+            transaction {
+                val id = Accounts.insertIgnore {
+                    it[_phone] = login
+                    it[_password] = Util.getSHA256String(pwd)
+                    it[_pic] = ""
+                } get Accounts._id
+                IPSix.insertIgnore {
+                    it[_id] = id
+                    it[_last_name] = lastname
+                    it[_patronymic] = middlename
+                    it[_first_name] = firstname
+                    it[_inn] = INN
+                    it[_inn_department] = codeNalog
+                    it[_activity_id] = activity
+                }
             }
+        } catch (e: IllegalStateException) {
+            return false
         }
+        return true
     }
 }
 

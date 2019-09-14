@@ -1,21 +1,23 @@
 package lambda.javahack.backend
 
+import kotlinx.coroutines.selects.select
+import lambda.javahack.backend.Accounts._id
 import lambda.javahack.backend.Accounts._phone
+import lambda.javahack.backend.Accounts._token
+import lambda.javahack.backend.Transaction._agent_id
+import lambda.javahack.backend.Transaction._issue_datetime
+import lambda.javahack.backend.Transaction._sum
+import lambda.javahack.backend.Transaction._user_id
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import kotlin.random.Random
 
 class DBHelper {
 
     init {
         Database.connect("jdbc:postgresql://localhost/db?user=secret&password=secret", driver="org.postgresql.Driver")
         transaction {
-            addLogger(StdOutSqlLogger)
             SchemaUtils.create(Accounts, IPSix, Transaction, Agents)
-            Accounts.insertIgnore {
-                it[_phone] = "user"
-                it[_password] = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
-                it[_pic] = ""
-            }
         }
     }
 
@@ -36,6 +38,7 @@ class DBHelper {
                     it[_phone] = login
                     it[_password] = Util.getSHA256String(pwd)
                     it[_pic] = ""
+                    it[_token] = Util.getSHA256String("$login${Random.nextInt()}")
                 } get Accounts._id
                 IPSix.insertIgnore {
                     it[_id] = id
@@ -52,6 +55,35 @@ class DBHelper {
         }
         return true
     }
+    fun getTokenByUid(uid: String): String {
+        var token = ""
+        transaction {
+            Accounts.select { _phone eq uid }.forEach {
+                token = it[_token]
+            }
+        }
+        return token
+    }
+    fun getTransactionsByUser(token: String) {
+        var id = 0
+        val tas = mutableListOf<Map<String,Any>>()
+        transaction {
+            Accounts.select { _token eq token }.forEach { id = it[_id] }
+            Transaction.select { _user_id eq id }.forEach {
+                tas += mapOf("transaction_id" to it[_id],
+                        "issue_datetime" to  it[_issue_datetime],
+                        "sum" to it[_sum],
+                        "agent_id" to it[_agent_id],
+                        "agent_name" to "",
+                        "agent_pic" to "")
+            }
+            val agents = Agents.selectAll()
+            tas.forEach {
+
+            }
+        }
+    }
+
 }
 
 object Accounts : Table() {
@@ -59,6 +91,7 @@ object Accounts : Table() {
     val _phone = text("phone").uniqueIndex()
     val _password = text("password")
     val _pic = text("pic") //url
+    val _token = text("token")
 }
 
 object IPSix : Table() {

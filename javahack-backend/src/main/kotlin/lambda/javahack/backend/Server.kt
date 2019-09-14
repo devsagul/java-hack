@@ -96,7 +96,8 @@ fun main(args: Array<String>) {
                 post("/auth") {
                     val principal = call.authentication.principal<UserIdPrincipal>()
                     try {
-                        call.sessions.set(LoginSession(principal!!.name))
+                        val token = db.getTokenByUid(principal!!.name)
+                        call.sessions.set(LoginSession(principal!!.name,token))
                         call.respondRedirect("/")
                     } catch (e: Exception) {
                         e.printStackTrace()

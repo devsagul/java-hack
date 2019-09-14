@@ -1,5 +1,6 @@
 package lambda.javahack.backend
 
+import lambda.javahack.backend.Accounts._user
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -9,21 +10,27 @@ class DBHelper {
         Database.connect("jdbc:postgresql://localhost/db?user=secret&password=secret", driver="org.postgresql.Driver")
         transaction {
             addLogger(StdOutSqlLogger)
-            SchemaUtils.create(Credentials)
+            SchemaUtils.create(Accounts)
+            Accounts.insertIgnore {
+                it[_user] = "user"
+                it[_password] = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+            }
         }
     }
 
     fun validateCredentials(user: String, password: String): Boolean {
-        return user == "test" && password == "test123"
+        var dbPass = ""
+        transaction {
+            Accounts.select {_user eq user}.forEach {
+                dbPass = it[Accounts._password]
+            }
+        }
+        return  Util.getSHA256String(password) == dbPass
     }
 }
 
-object Credentials : Table() {
+object Accounts : Table() {
     val _id = integer("id").autoIncrement().primaryKey()
     val _user = text("user").uniqueIndex()
     val _password = text("password")
-}
-
-object Test: Table() {
-    val _text = text("text")
 }

@@ -1,5 +1,42 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 
+<!-- 
+Types:
+
+	Данные ИП налогоплательщика:
+		inn[1-12] - ИНН 
+		kpp[1-9]  - КПП 
+	
+	ФИО налогоплательщика:
+		fio_f[1-40] - фамилия
+		fio_i[1-40] - имя
+		fio_o[1-40] - отчество
+
+	Контактные данные:
+		mob_n[1-20] - номер телефона
+
+	Данные декларации:
+		n_p_k[1-2]  - код налогового периода
+		o_year[1-4] - отчётный год
+		nal_co[1-4] - код налогового органа
+
+		resp_id[1] - подаёт владелец(1) или по доверенности(2)
+		
+		Если подача по доверенности:
+			r_fio_f[1-20] - фамилия доверенного лица
+			r_fio_i[1-20] - имя доверенного лица
+			r_fio_o[1-20] - отчесто доверенного лица
+
+			rsp[1-8]_[1-20] - данные о доверенности
+
+	Дата:
+		day[1-2] 	- день
+		mounth[1-2] - месяц
+		year[1-4]	- год
+
+ -->
+
+
 <html>
 <head>
 	
@@ -1128,7 +1165,7 @@
 	</tr>
 	<tr>
 		<td height="23" align="left" valign=top sdnum="1033;0;@"><font face="Arial" color="#000000"> </font></td>
-		<td style="border-top: 1px dotted #000000; border-bottom: 1px dotted #000000; border-left: 1px dotted #000000; border-right: 1px dotted #000000" align="center" valign=middle sdnum="1033;0;@"><font face="Courier New" size=4 color="#000000"><br></font></td>
+		<td style="border-top: 1px dotted #000000; border-bottom: 1px dotted #000000; border-left: 1px dotted #000000; border-right: 1px dotted #000000" align="center" valign=middle sdnum="1033;0;@"><font face="Courier New" size=4 color="#000000">{{resp_id}}</font></td>
 		<td align="left" valign=top sdnum="1033;0;@"><font face="Arial" color="#000000"><br></font></td>
 		<td colspan=15 rowspan=2 align="left" valign=top sdnum="1033;0;@"><font face="Arial" color="#000000">1 - налогоплательщик, <br>2 - представитель налогоплательщика</font></td>
 		<td align="left" valign=top sdnum="1033;0;@"><font face="Arial" color="#000000"> </font></td>

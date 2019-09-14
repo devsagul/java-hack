@@ -19,7 +19,7 @@
                         <input class="login-input" type="text" placeholder="username" id="login" name="login">
                     </div>
                     <div class="adm-login-row">
-                        <input class="login-input" type="text" placeholder="ФИО" id="FIO" name="login">
+                        <input class="login-input" type="text" placeholder="ФИО" id="FIO" name="FIO">
                     </div>
                     <div class="adm-login-row">
                         <input class="login-input" type="text" placeholder="INN" id="INN" name="INN">

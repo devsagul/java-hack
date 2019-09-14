@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="body-container">
-    <form class="login-form">
+    <form class="login-form" method="post">
         <div class="login-form-row form-header">
             Физюрики
         </div>

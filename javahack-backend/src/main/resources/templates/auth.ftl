@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="static/styles/auth.css" type="text/css">
+    <link rel="stylesheet" href="styles/auth.css" type="text/css">
 </head>
 <body>
 <div class="body-container">
-    <form class="login-form">
+    <form class="login-form" method="post">
         <div class="login-form-row form-header">
             Физюрики
         </div>

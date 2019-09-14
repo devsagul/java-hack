@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  html2pdf:
+    build: html2pdf
+    ports:
+      - 5000:5000
+  backend:
+    build: javahack-backend
+    ports:
+      - 80:8080
+  db:
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: secrret
+      POSTGRES_PASSWORD: secret
+
+  volumes:
+    db-data:
+      driver: local

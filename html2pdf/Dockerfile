@@ -8,8 +8,9 @@ RUN wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.z
 RUN unzip chromedriver_linux64.zip
 RUN mv chromedriver /usr/bin/chromedriver
 RUN chmod +x /usr/bin/chromedriver
-
-RUN pip3 install werkzeug==0.14.1 flask selenium pybars3 pypdf2 flask_wtf
-RUN mkdir app
+ADD . /app
+WORKDIR /app
+RUN pip3 install -r requirements.txt
+EXPOSE 5000
 ENTRYPOINT ["python3"]
-CMD ["app/app.py"]
+CMD ["app.py"]

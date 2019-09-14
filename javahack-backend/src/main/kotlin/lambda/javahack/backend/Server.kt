@@ -45,10 +45,10 @@ fun main(args: Array<String>) {
         }
         install(Authentication) {
             form(name = "form") {
-                userParamName = "user"
-                passwordParamName = "password"
+                userParamName = "login"
+                passwordParamName = "pwd"
                 challenge {
-                    FormAuthChallenge.Redirect{"/login"}
+                    FormAuthChallenge.Redirect{"/auth"}
                 }
                 validate { if (db.validateCredentials(it.name,it.password)) UserIdPrincipal(it.name) else null }
             }

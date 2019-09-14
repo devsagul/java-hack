@@ -19,6 +19,6 @@ services:
       POSTGRES_USER: secrret
       POSTGRES_PASSWORD: secret
 
-  volumes:
-    db-data:
-      driver: local
+volumes:
+  db-data:
+    driver: local

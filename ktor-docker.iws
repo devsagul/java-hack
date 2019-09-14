@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="89da130b-6139-4d9a-b0a5-8614e567fc91" name="Default Changelist" comment="" />
+    <list default="true" id="89da130b-6139-4d9a-b0a5-8614e567fc91" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ktor-docker.iws" beforeDir="false" afterPath="$PROJECT_DIR$/ktor-docker.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/none/Server.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/lambda/javahack/backend/Server.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/kotlin/none/AppTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/lambda/javahack/backend/AppTest.kt" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,12 +61,20 @@
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="javahack-backend" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="javahack-backend" type="f1a62948:ProjectNode" />
+                <item name="Source Sets" type="e897c970:GradleViewContributor$SourceSetsNode" />
               </path>
             </expand>
             <select />

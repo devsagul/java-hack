@@ -13,7 +13,7 @@ plugins {
     id 'idea'
 }
 
-mainClassName = 'none.ServerKt'
+mainClassName = 'lambda.javahack.backend.ServerKt'
 
 repositories {
     mavenCentral()
@@ -32,7 +32,7 @@ dependencies {
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Main-Class' : 'none.ServerKt'
+        attributes 'Main-Class' : 'lambda.javahack.backend.ServerKt'
     }
     baseName = project.name + '-full'
     from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }

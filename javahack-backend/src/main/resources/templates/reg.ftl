@@ -29,13 +29,13 @@
                     </div>
                     <div class="adm-login-row">
                         <span class="custom-dropdown big">
-                            <select>
+                            <select name="activity">
                                   <option value="" disabled selected> Вид деятельности</option>
-                              <option>Пидор</option>
-                              <option>Пидор</option>
-                              <option>Пидор</option>
-                              <option>Пидор</option>
-                              <option>Пидор</option>
+                              <option value="1">Пидор</option>
+                              <option value="2">Пидор</option>
+                              <option value="3">Пидор</option>
+                              <option value="4">Пидор</option>
+                              <option value="5">Пидор</option>
                             </select>
                         </span>
                     </div>

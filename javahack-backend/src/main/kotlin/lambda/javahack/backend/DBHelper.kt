@@ -10,10 +10,11 @@ class DBHelper {
         Database.connect("jdbc:postgresql://localhost/db?user=secret&password=secret", driver="org.postgresql.Driver")
         transaction {
             addLogger(StdOutSqlLogger)
-            SchemaUtils.create(Accounts)
+            SchemaUtils.create(Accounts, IPSix, Transaction, Agents)
             Accounts.insertIgnore {
                 it[_phone] = "user"
                 it[_password] = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+                it[_pic] = ""
             }
         }
     }
@@ -26,6 +27,30 @@ class DBHelper {
             }
         }
         return  Util.getSHA256String(password) == dbPass
+    }
+    fun addUser(login: String, pwd: String, lastname: String, middlename: String, firstname: String, INN: String,
+                codeNalog: String, activity: String): Boolean {
+        try {
+            transaction {
+                val id = Accounts.insertIgnore {
+                    it[_phone] = login
+                    it[_password] = Util.getSHA256String(pwd)
+                    it[_pic] = ""
+                } get Accounts._id
+                IPSix.insertIgnore {
+                    it[_id] = id
+                    it[_last_name] = lastname
+                    it[_patronymic] = middlename
+                    it[_first_name] = firstname
+                    it[_inn] = INN
+                    it[_inn_department] = codeNalog
+                    it[_activity_id] = activity
+                }
+            }
+        } catch (e: IllegalStateException) {
+            return false
+        }
+        return true
     }
 }
 
@@ -50,7 +75,7 @@ object Transaction : Table() {
     val _id = integer("id").autoIncrement().primaryKey()
     val _issue_datetime = datetime("issue_datetime")
     val _sum = double("sum")
-    val _user_id = integer("id").references(Accounts._id)
+    val _user_id = integer("user_id").references(Accounts._id)
     val _agent_id = integer("agent_id").references(Agents._id)
 }
 

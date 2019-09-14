@@ -6,8 +6,8 @@
 body {
     font-family: 'Roboto Condensed', sans-serif;
     font-size: 14px;
-    background: #eef4f8;
-    background: radial-gradient(ellipse at center, #EEF4F8 0%, #B8C9D6 100%);
+    background:#000000;
+    /*background: radial-gradient(ellipse at center, #EEF4F8 0%, #B8C9D6 100%);*/
 }
 html,
 body {

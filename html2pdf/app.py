@@ -65,7 +65,7 @@ def kudir():
     template = '/app/templates/kudir.html'
     return render_template(template, context, 'КУДиР.pdf')
 
-@app.route('/declaration', methods = ['POST'])
+@app.route('/declaration', methods = ['POST', 'GET'])
 def declaration():
     context = request.form
     template = '/app/templates/declaration.html'

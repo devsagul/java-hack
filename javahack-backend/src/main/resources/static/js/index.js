@@ -6,7 +6,7 @@ function elem(id) {
 const flexbox = document.getElementsByClassName('flexbox')[0];
 
 async function fetching() {
-    await fetch("http://127.0.0.1:80/")
+    await fetch("http://localhost:80/")
         .then(response=>{
             return response.json()
         })

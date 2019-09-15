@@ -7,17 +7,13 @@
 </head>
 <body>
 <div class="body-container">
-
-
-    <div class="auth-page-container">
-
-        <div class="main-form front">
-            <div class="main-form-inner">
-                <div class="engine-name"></div>
-                <form method="post" class="adm-form login-form">
-                    <div class="adm-login-row">
-                        <input class="login-input" type="text" placeholder="username" id="login" name="login">
-                    </div>
+    <form class="login-form" method="post">
+        <div class="login-form-row form-header">
+            Физюрики
+        </div>
+        <div class="adm-login-row">
+            <input class="login-input" type="text" placeholder="Телефон" id="login" name="login">
+        </div>
                     <div class="adm-login-row">
                         <input class="login-input" type="text" placeholder="Фамилия" id="FIO" name="lastname">
                     </div>
@@ -28,36 +24,32 @@
                         <input class="login-input" type="text" placeholder="Отчество" id="FIO" name="middlename">
                     </div>
                     <div class="adm-login-row">
-                        <input class="login-input" type="text" placeholder="INN" id="INN" name="INN">
+                        <input class="login-input" type="text" placeholder="ИНН" id="INN" name="INN">
                     </div>
                     <div class="adm-login-row">
                         <input class="login-input" type="text" placeholder="Код налогового органа" id="CodeNalog" name="CodeNalog">
                     </div>
+
                     <div class="adm-login-row">
                         <span class="custom-dropdown big">
-                            <select name="activity">
-                                  <option value="" disabled selected> Вид деятельности</option>
-                              <option value="1">Пидор</option>
-                              <option value="2">Пидор</option>
-                              <option value="3">Пидор</option>
-                              <option value="4">Пидор</option>
-                              <option value="5">Пидор</option>
+                            <select>
+                              <option value="" disabled selected> Вид деятельности</option>
+                              <option>Пидор</option>
+                              <option>Пидор</option>
+                              <option>Пидор</option>
+                              <option>Пидор</option>
+                              <option>Пидор</option>
                             </select>
                         </span>
                     </div>
 
                     <div class="adm-login-row">
-                        <input class="login-input" type="password" placeholder="password" id="pwd" name="pwd">
+                        <input class="login-input" type="password" placeholder="Пароль" id="pwd" name="pwd">
                     </div>
-
-                    <div class="adm-login-row adm-clearfix adm-margin">
-                        <button class="adm-button-action adm-float-right" type="submit">Sig-Up</button>
-                    </div>
-                </form>
-            </div>
+        <div class="login-form-row login-form-bottom">
+            <a href="localhost/reg" class="no-style bottom-button-wrap""><button class="bottom-button ">Регистрация</button></a>
         </div>
-        </div>
-        </div>
-    </div>
+    </form>
+</div>
 </body>
-</html>../
+</html>

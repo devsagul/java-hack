@@ -46,6 +46,7 @@ import java.util.*
 data class LoginSession(val user: String, var token: String = "NO_TOKEN")
 
 val db = DBHelper()
+val asiistList = mutableMapOf<String,List<Map<String,String>>>()
 
 fun main(args: Array<String>) {
     val server = embeddedServer(Netty, 8080) {
@@ -102,6 +103,22 @@ fun main(args: Array<String>) {
                     call.respond(res)
                 } else {
                     call.respondText("Login first")
+                }
+            }
+            get("/helper") {
+                val nodes = AkinTree().nodes
+                try{
+                    var id = 0
+                    if (call.request.queryParameters["id"] != null) {
+                        id = call.request.queryParameters["id"]!!.toInt()
+                    }
+                    var n = nodes[0]
+                    nodes.forEach {
+                        if (it.id == id) n = it
+                    }
+                    call.respond(n)
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
                 }
             }
             get("/pdf") {

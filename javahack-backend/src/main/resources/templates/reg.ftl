@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Регистрация</title>
     <link rel="stylesheet" href="styles/reg.css" type="text/css">
 </head>
 <body>
@@ -34,11 +34,10 @@
                         <span class="custom-dropdown big">
                             <select>
                               <option value="" disabled selected> Вид деятельности</option>
-                              <option>Пидор</option>
-                              <option>Пидор</option>
-                              <option>Пидор</option>
-                              <option>Пидор</option>
-                              <option>Пидор</option>
+                              <option value="62.01">62.01 Разработка компьютерного программного обеспечения</option>
+                              <option value="62.02">62.02 Деятельность консультативная и работы в области компьютерных технологий</option>
+                              <option value="62.09">62.09 Деятельность, связанная с использованием вычислительной техники и информационных технологий, прочая</option>
+                              <option value="63.11.1">63.11.1 Деятельность по созданию и использованию баз данных и информационных ресурсов</option>
                             </select>
                         </span>
                     </div>
@@ -47,7 +46,7 @@
                         <input class="login-input" type="password" placeholder="Пароль" id="pwd" name="pwd">
                     </div>
         <div class="login-form-row login-form-bottom">
-            <a href="localhost/reg" class="no-style bottom-button-wrap""><button class="bottom-button ">Регистрация</button></a>
+            <a href="localhost/reg" class="no-style bottom-button-wrap" onclick="function f() {return false;}"><button class="bottom-button ">Регистрация</button></a>
         </div>
     </form>
 </div>

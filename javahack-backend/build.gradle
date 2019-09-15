@@ -33,6 +33,7 @@ dependencies {
     implementation 'org.jetbrains.exposed:exposed:0.17.3'
     implementation "org.postgresql:postgresql:42.2.2"
     implementation "io.ktor:ktor-client:$ktor_version"
+    implementation "io.ktor:ktor-client-okhttp:$ktor_version"
 }
 
 task fatJar(type: Jar) {

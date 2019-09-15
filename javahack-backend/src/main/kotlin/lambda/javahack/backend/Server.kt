@@ -4,10 +4,14 @@ import freemarker.cache.ClassTemplateLoader
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.client.HttpClient
+import io.ktor.client.call.receive
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.request
 import io.ktor.client.request.url
+import io.ktor.client.response.HttpResponse
+import io.ktor.client.response.readBytes
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.freemarker.FreeMarker
@@ -32,9 +36,11 @@ import io.ktor.response.*
 import io.ktor.routing.route
 import io.ktor.sessions.*
 import io.ktor.util.getDigestFunction
+import kotlinx.coroutines.withTimeout
 import java.io.File
 import java.io.InputStream
 import java.lang.IllegalArgumentException
+import java.time.Duration
 import java.util.*
 
 data class LoginSession(val user: String, var token: String = "NO_TOKEN")
@@ -80,6 +86,15 @@ fun main(args: Array<String>) {
                 to listOf<Any>(mapOf("id" to 1, "answer" to "да"), mapOf("id" to 2, "answer" to "нет")))
                 call.respond(json)
             }
+            get("/assistant") {
+                val session = call.sessions.get<LoginSession>()
+                if (session?.token != null) {
+                    val res = AkinTree().nodes
+                    call.respond(res)
+                } else {
+                    call.respondText("Login first")
+                }
+            }
             get("/transactions") {
                 val session = call.sessions.get<LoginSession>()
                 if (session?.token != null) {
@@ -92,19 +107,26 @@ fun main(args: Array<String>) {
             get("/pdf") {
                 val session = call.sessions.get<LoginSession>()
                 if (session?.token != null) {
-                    val client = HttpClient()
-                    val dec = db.getDeclaration(session?.token)
-                    val request = client.request<String> {
-                        url("localhost:5000/declaration")
-                        method = HttpMethod.Post
-                        body = MultiPartFormDataContent(formData {
-                            dec.forEach { d ->
-                                append(d.key, d.value.toString())
+                    val client = HttpClient(OkHttp) {
+                        engine {
+                            config {
+                                connectTimeout(Duration.ofMinutes(5))
+                                readTimeout(Duration.ofMinutes(5))
                             }
-                        })
+                        }
                     }
+                    val dec = db.getDeclaration(session?.token)
+                        val request = client.request<HttpResponse> {
+                            url("http://localhost:5000/declaration")
+                            method = HttpMethod.Post
+                            body = MultiPartFormDataContent(formData {
+                                dec.forEach { d ->
+                                    append(d.key, d.value.toString())
+                                }
+                            })
+                        }
                     val file = File("tmp.pdf")
-                    file.copyInputStreamToFile(request.byteInputStream())
+                    file.copyInputStreamToFile(request.receive<InputStream>())
                     call.respondBytes(file.readBytes())
                 } else {
                     call.respondText("Login first")

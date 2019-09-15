@@ -52,38 +52,46 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
-.img{
-    position: relative; left: 70px ;top: 10px ;width: 150px;height: 180px
-}
 .imgOnSmall{
-    top: -25px;!important;
-    left: 30%;!important;
-
-
 }
 .anotherBlock{
     max-width: 1200px;
     position: relative;
-    top: 400px;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
     background: #ffed00 ;
     width:100%; height: 200px;
+    justify-items: space-between;
+    align-items: stretch; 
 }
 .anotherBlockSmall{
     position: relative;
-    top: 400px;
     background: #ffed00 ;
     width:60%; height: 200px;
-    left: 15%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+.imgContainer {
+  display: flex;
+  justify-content: stretch;
+  align-content: stretch;
+}
+
 .fifty{
     background: #e8e000;
-    width: 49% ;
+    width: 50% ;
     height: 100%;
     position:relative;
-    top: -160px;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     border: 4px black dashed;
 }
+
 body {
     color: #000000;
     text-shadow: 2px 0 0 #a49c26,
@@ -350,7 +358,8 @@ header {
 /** CONTAINERS **/
 .container {
     float: left;
-    width: 300px;
+    width: 30%;
+    margin: 0 5%;
 }
 .block {
     margin-bottom: 25px;
@@ -361,6 +370,9 @@ header {
 .left-container {}
 .menu-box {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     left: 45%;
     height: 360px;
 }

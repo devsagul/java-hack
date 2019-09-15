@@ -77,6 +77,8 @@ class DBHelper {
                         "issue_datetime" to  it[_issue_datetime].toString(),
                         "sum" to it[_sum],
                         "agent_id" to it[_agent_id],
+                        "document_id" to it[Transaction._documet_id],
+                        "comment" to it[Transaction._comment],
                         "agent_name" to "",
                         "agent_pic" to "")
             }
@@ -102,12 +104,12 @@ class DBHelper {
                 id = it[Accounts._id]
                 phone = it[_phone]
             }
-            IPSix.select { _user_id eq id }.forEach { tb ->
+            IPSix.select { IPSix._id eq id }.forEach { tb ->
                 data["inn"] = tb[IPSix._inn]
                 data["kpp"] = ""
-                data["fio_f"] = tb[IPSix._last_name]
-                data["fio_i"] = tb[IPSix._first_name]
-                data["fio_o"] = tb[IPSix._patronymic]
+                data["fio_f_"] = tb[IPSix._last_name]
+                data["fio_n_"] = tb[IPSix._first_name]
+                data["fio_o_"] = tb[IPSix._patronymic]
                 data["mob_n"] = phone
                 data["n_p_k"] = ""
                 data["o_year"] = Calendar.getInstance().get(Calendar.YEAR)
@@ -119,6 +121,37 @@ class DBHelper {
             }
         }
         return data
+    }
+    fun addTransaction(token: String, issue_date: String, sum: Double, agent_name: String, document_id: String,
+    docType: DocType) {
+        var comment = ""
+        comment = when (docType) {
+            DocType.CHEK -> "Поступление в кассу: оплата от покупателя по чеку №$document_id"
+            DocType.DOGOVOR -> "Поступление на счёт от $agent_name по договору №$document_id"
+            DocType.OFFERTA -> "Поступление на счёт от $agent_name по публичной оферте №$document_id"
+        }
+        transaction {
+            if (agent_name != "") {
+                Agents.insertIgnore {
+                    it[Agents._name] = agent_name
+                    it[_pic] = ""
+                    it[_type] = ""
+                    it[_category] = ""
+                }
+                var ag_id = 0
+                Agents.select { Agents._name eq agent_name }.forEach { ag_id = it[Agents._id] }
+                var user_id = 0
+                Accounts.select { Accounts._token eq token }.forEach { user_id = it[Accounts._id] }
+                Transaction.insert {
+                    it[_issue_datetime] = issue_date
+                    it[_sum] = sum
+                    it[_user_id] = user_id
+                    it[_agent_id] = ag_id
+                    it[_documet_id] = document_id
+                    it[_comment] = comment
+                }
+            }
+        }
     }
 
 }
@@ -143,16 +176,18 @@ object IPSix : Table() {
 
 object Transaction : Table() {
     val _id = integer("id").autoIncrement().primaryKey()
-    val _issue_datetime = datetime("issue_datetime")
+    val _issue_datetime = text("issue_datetime")
     val _sum = double("sum")
     val _user_id = integer("user_id").references(Accounts._id)
     val _agent_id = integer("agent_id").references(Agents._id)
+    val _documet_id = text("document_id")
+    val _comment = text("comment")
 }
 
 object Agents: Table() {
     val _id = integer("id").primaryKey()
-    val _name = text("name")
+    val _name = text("name").uniqueIndex()
     val _pic = text("pic") //url
-    val type = text("type")
-    val category = text("category")
+    val _type = text("type")
+    val _category = text("category")
 }

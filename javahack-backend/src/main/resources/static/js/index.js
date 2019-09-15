@@ -3,6 +3,7 @@ let index = 1;
 function elem(id) {
     return document.getElementById(id)
 }
+
 const flexbox = document.getElementsByClassName('flexbox')[0];
 async function fetching() {
     await fetch(`/helper?id=${index}`)

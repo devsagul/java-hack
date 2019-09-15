@@ -6,7 +6,7 @@ function elem(id) {
 const flexbox = document.getElementsByClassName('flexbox')[0];
 
 async function fetching() {
-    await fetch("/helper")
+    await fetch(`/helper${index}`)
         .then(response=>{
             return response.json()
         })
@@ -29,6 +29,7 @@ async function fetching() {
 fetching();
 function callServer(par) {
     let param;
+    index++;
     if (par === "input") {
         param = elem("input").value ;
     }

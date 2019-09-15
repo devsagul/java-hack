@@ -3,11 +3,17 @@ package lambda.javahack.backend
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.client.HttpClient
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
+import io.ktor.client.request.request
+import io.ktor.client.request.url
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.freemarker.FreeMarker
 import io.ktor.freemarker.FreeMarkerContent
 import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
 import io.ktor.http.content.resources
 import io.ktor.http.content.static
 import io.ktor.request.receiveParameters
@@ -71,6 +77,30 @@ fun main(args: Array<String>) {
                 val json = mapOf<String,Any>("question" to "Ты пишешь на котлине?", "id" to 0, "childs"
                 to listOf<Any>(mapOf("id" to 1, "answer" to "да"), mapOf("id" to 2, "answer" to "нет")))
                 call.respond(json)
+            }
+            get("/transactions") {
+                val session = call.sessions.get<LoginSession>()
+                if (session?.token != null) {
+                    val res = db.getTransactionsByUser(session?.token)
+                    call.respond(res)
+                } else {
+                    call.respondText("Login first")
+                }
+            }
+            get("/pdf") {
+                val session = call.sessions.get<LoginSession>()
+                if (session?.token != null) {
+                    val client = HttpClient()
+                    val request = client.request<String> {
+                        url("localhost:5000/declaration")
+                        method = HttpMethod.Post
+                        body = MultiPartFormDataContent(formData {
+                            append("key", "value")
+                        })
+                    }
+                } else {
+                    call.respondText("Login first")
+                }
             }
             post("/reg") {
                try {

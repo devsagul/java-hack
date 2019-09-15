@@ -4,6 +4,8 @@ import kotlinx.coroutines.selects.select
 import lambda.javahack.backend.Accounts._id
 import lambda.javahack.backend.Accounts._phone
 import lambda.javahack.backend.Accounts._token
+import lambda.javahack.backend.Agents._name
+import lambda.javahack.backend.Agents._pic
 import lambda.javahack.backend.Transaction._agent_id
 import lambda.javahack.backend.Transaction._issue_datetime
 import lambda.javahack.backend.Transaction._sum
@@ -64,14 +66,14 @@ class DBHelper {
         }
         return token
     }
-    fun getTransactionsByUser(token: String) {
+    fun getTransactionsByUser(token: String): List<Map<String, Any>> {
         var id = 0
-        val tas = mutableListOf<Map<String,Any>>()
+        val tas = mutableListOf<MutableMap<String,Any>>()
         transaction {
             Accounts.select { _token eq token }.forEach { id = it[_id] }
             Transaction.select { _user_id eq id }.forEach {
-                tas += mapOf("transaction_id" to it[_id],
-                        "issue_datetime" to  it[_issue_datetime],
+                tas += mutableMapOf<String, Any>("transaction_id" to it[Transaction._id],
+                        "issue_datetime" to  it[_issue_datetime].toString(),
                         "sum" to it[_sum],
                         "agent_id" to it[_agent_id],
                         "agent_name" to "",
@@ -79,9 +81,15 @@ class DBHelper {
             }
             val agents = Agents.selectAll()
             tas.forEach {
-
+                agents.forEach { ag ->
+                    if (it["agent_id"] == ag[Agents._id] ) {
+                        it["agent_name"] = ag[_name]
+                        it["agent_pic"] = ag[_pic]
+                    }
+                }
             }
         }
+        return tas
     }
 
 }
@@ -116,4 +124,6 @@ object Agents: Table() {
     val _id = integer("id").primaryKey()
     val _name = text("name")
     val _pic = text("pic") //url
+    val type = text("type")
+    val category = text("category")
 }

@@ -1,13 +1,12 @@
 let resp;
-let index = 1;
+let index = 0;
 function elem(id) {
     return document.getElementById(id)
 }
 const flexbox = document.getElementsByClassName('flexbox')[0];
 
-
 async function fetching() {
-    await fetch(`/helper${index}`)
+    await fetch(`/helper?id=${index}`)
         .then(response=>{
             return response.json()
         })

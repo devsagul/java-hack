@@ -18,7 +18,7 @@ import kotlin.random.Random
 class DBHelper {
 
     init {
-        Database.connect("jdbc:postgresql://localhost/db?user=secret&password=secret", driver="org.postgresql.Driver")
+        Database.connect("jdbc:postgresql://db/db?user=secret&password=secret", driver="org.postgresql.Driver")
         transaction {
             SchemaUtils.create(Accounts, IPSix, Transaction, Agents)
         }

@@ -1,11 +1,14 @@
 body{
-    background: indigo;
+    background: #ffed00;
     width: 100vw;
+}
+h1{
+    font-family: sans-serif;  color: #736c00; text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
 }
 #question{
     border-radius: 10px;
     border: 2px double #d1d1d1;
-    background:#474747;
+    background: #000000;
     color: white;
     padding: 15px;
     margin: 5px;
@@ -57,5 +60,6 @@ body{
     box-shadow: 5px 5px 0px #999;
 }
 .item:active{
-    background: slateblue;
+    border: 5px dashed black;
+    background: #a49c26;
 }

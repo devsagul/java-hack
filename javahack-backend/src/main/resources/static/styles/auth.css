@@ -107,10 +107,6 @@ input.login-input:-webkit-autofill {
     border-radius: 4px;
     color: #848f9a;
     transition: all linear 0.2s;
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 }
    /* Focus state */
 .login-input:focus {

@@ -7,6 +7,8 @@ import os
 import re
 import tempfile
 from pybars import Compiler
+from werkzeug.exceptions import BadRequestKeyError
+from selenium.webdriver.common.keys import Keys
 import PyPDF2
 
 from flask import Flask, Blueprint
@@ -48,6 +50,8 @@ def download(target_path, template_file, context):
     f = tempfile.NamedTemporaryFile(mode='w',delete=True, encoding='utf-8', suffix='.html')
     f.write(template(context))
     driver.get("file:///" + f.name)
+    #driver.execute_script("document.body.style.zoom='90%'")
+    driver.find_element_by_tag_name('html').send_keys(Keys.CONTROL, '-')
     f.close()
     save_as_pdf(driver, target_path)
     mutex.release()
@@ -71,34 +75,37 @@ def declaration():
     lengths = {
       'inn' : 12,
       'kpp' : 9,
-      'fio_f' : 40,
-      'fio_i' : 40,
-      'fio_o' : 40,
-      'mob_n' : 20,
+      'fio_f_' : 40,
+      'fio_n_' : 40,
+      'fio_o_' : 40,
+      'mob_no' : 20,
       'n_p_k' : 2,
       'o_year' : 4,
       'nal_co' : 4,
       'resp_id' : 1,
       'r_fio_f' : 20,
-      'r_fio_f' : 20,
+      'r_fio_i' : 20,
       'r_fio_o' : 20,
       'rsp' : 160,
       'day' : 2,
-      'month' : 2,
+      'mounth' : 2,
       'year' : 4,
     }
     context = {}
     for key in lengths:
-      value = data[key]
+      try:
+        value = data[key]
+      except BadRequestKeyError:
+        value = ''
       for i in range(lengths[key]):
         if key != 'rsp':
-          new_key = key + '_'+ str(i + 1)
+          new_key = key + str(i + 1)
         else:
           group = i // 20
           j = i % 20
-          new_key = key + '_' + str(group + 1) + '_' + str(j + 1)
+          new_key = key + str(group + 1) + '_' + str(j + 1)
         try:
-          s = data[key][i]
+          s = value[i]
         except IndexError:
           s = '-'
         context[new_key] = s

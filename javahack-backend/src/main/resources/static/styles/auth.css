@@ -108,6 +108,7 @@ input.login-input:-webkit-autofill {
     color: #848f9a;
     transition: all linear 0.2s;
 }
+   /* Focus state */
 .login-input:focus {
     outline: 0;
     box-shadow: none !important;
@@ -133,8 +134,8 @@ input.login-input:-webkit-autofill {
     padding: 20px 0;
 }
 .main-form {
-    width: 360px;
-    height: 260px;
+    min-width: 360px;
+    min-height: 260px;
     background: #383e45;
     display: inline-block;
     vertical-align: middle;
@@ -164,7 +165,7 @@ input.login-input:-webkit-autofill {
     border: 1px #1e2329 solid;
     color: #afc1d5;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-    min-height: 30px;
+    height: 30px;
     padding: 0 10px;
     line-height: 30px;
     display: inline-block;
@@ -255,4 +256,3 @@ input.login-input:-webkit-autofill {
     transform: rotateX(0deg);
     z-index: 1000;
 }
-*/

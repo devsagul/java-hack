@@ -67,7 +67,41 @@ def kudir():
 
 @app.route('/declaration', methods = ['POST', 'GET'])
 def declaration():
-    context = request.form
+    data = request.form
+    lengths = {
+      'inn' : 12,
+      'kpp' : 9,
+      'fio_f' : 40,
+      'fio_i' : 40,
+      'fio_o' : 40,
+      'mob_n' : 20,
+      'n_p_k' : 2,
+      'o_year' : 4,
+      'nal_co' : 4,
+      'resp_id' : 1,
+      'r_fio_f' : 20,
+      'r_fio_f' : 20,
+      'r_fio_o' : 20,
+      'rsp' : 160,
+      'day' : 2,
+      'month' : 2,
+      'year' : 4,
+    }
+    context = {}
+    for key in lengths:
+      value = data[key]
+      for i in range(lengths[key]):
+        if key != 'rsp':
+          new_key = key + '_'+ str(i + 1)
+        else:
+          group = i // 20
+          j = i % 20
+          new_key = key + '_' + str(group + 1) + '_' + str(j + 1)
+        try:
+          s = data[key][i]
+        except IndexError:
+          s = '-'
+        context[new_key] = s
     template = '/app/templates/declaration.html'
     return render_template(template, context, 'Декларация.pdf')
 

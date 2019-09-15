@@ -3,11 +3,17 @@ package lambda.javahack.backend
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.client.HttpClient
+import io.ktor.client.request.forms.MultiPartFormDataContent
+import io.ktor.client.request.forms.formData
+import io.ktor.client.request.request
+import io.ktor.client.request.url
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
 import io.ktor.freemarker.FreeMarker
 import io.ktor.freemarker.FreeMarkerContent
 import io.ktor.http.ContentType
+import io.ktor.http.HttpMethod
 import io.ktor.http.content.resources
 import io.ktor.http.content.static
 import io.ktor.request.receiveParameters
@@ -26,6 +32,8 @@ import io.ktor.response.*
 import io.ktor.routing.route
 import io.ktor.sessions.*
 import io.ktor.util.getDigestFunction
+import java.io.File
+import java.io.InputStream
 import java.lang.IllegalArgumentException
 import java.util.*
 
@@ -72,6 +80,36 @@ fun main(args: Array<String>) {
                 to listOf<Any>(mapOf("id" to 1, "answer" to "да"), mapOf("id" to 2, "answer" to "нет")))
                 call.respond(json)
             }
+            get("/transactions") {
+                val session = call.sessions.get<LoginSession>()
+                if (session?.token != null) {
+                    val res = db.getTransactionsByUser(session?.token)
+                    call.respond(res)
+                } else {
+                    call.respondText("Login first")
+                }
+            }
+            get("/pdf") {
+                val session = call.sessions.get<LoginSession>()
+                if (session?.token != null) {
+                    val client = HttpClient()
+                    val dec = db.getDeclaration(session?.token)
+                    val request = client.request<String> {
+                        url("localhost:5000/declaration")
+                        method = HttpMethod.Post
+                        body = MultiPartFormDataContent(formData {
+                            dec.forEach { d ->
+                                append(d.key, d.value.toString())
+                            }
+                        })
+                    }
+                    val file = File("tmp.pdf")
+                    file.copyInputStreamToFile(request.byteInputStream())
+                    call.respondBytes(file.readBytes())
+                } else {
+                    call.respondText("Login first")
+                }
+            }
             post("/reg") {
                try {
                    val post = call.receiveParameters()
@@ -111,4 +149,11 @@ fun main(args: Array<String>) {
         }
     }
     server.start(wait = true)
+}
+fun File.copyInputStreamToFile(inputStream: InputStream) {
+    inputStream.use { input ->
+        this.outputStream().use { fileOut ->
+            input.copyTo(fileOut)
+        }
+    }
 }

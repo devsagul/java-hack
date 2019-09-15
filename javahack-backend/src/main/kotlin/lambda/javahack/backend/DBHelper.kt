@@ -4,12 +4,15 @@ import kotlinx.coroutines.selects.select
 import lambda.javahack.backend.Accounts._id
 import lambda.javahack.backend.Accounts._phone
 import lambda.javahack.backend.Accounts._token
+import lambda.javahack.backend.Agents._name
+import lambda.javahack.backend.Agents._pic
 import lambda.javahack.backend.Transaction._agent_id
 import lambda.javahack.backend.Transaction._issue_datetime
 import lambda.javahack.backend.Transaction._sum
 import lambda.javahack.backend.Transaction._user_id
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.*
 import kotlin.random.Random
 
 class DBHelper {
@@ -64,14 +67,14 @@ class DBHelper {
         }
         return token
     }
-    fun getTransactionsByUser(token: String) {
+    fun getTransactionsByUser(token: String): List<Map<String, Any>> {
         var id = 0
-        val tas = mutableListOf<Map<String,Any>>()
+        val tas = mutableListOf<MutableMap<String,Any>>()
         transaction {
             Accounts.select { _token eq token }.forEach { id = it[_id] }
             Transaction.select { _user_id eq id }.forEach {
-                tas += mapOf("transaction_id" to it[_id],
-                        "issue_datetime" to  it[_issue_datetime],
+                tas += mutableMapOf<String, Any>("transaction_id" to it[Transaction._id],
+                        "issue_datetime" to  it[_issue_datetime].toString(),
                         "sum" to it[_sum],
                         "agent_id" to it[_agent_id],
                         "agent_name" to "",
@@ -79,9 +82,43 @@ class DBHelper {
             }
             val agents = Agents.selectAll()
             tas.forEach {
-
+                agents.forEach { ag ->
+                    if (it["agent_id"] == ag[Agents._id] ) {
+                        it["agent_name"] = ag[_name]
+                        it["agent_pic"] = ag[_pic]
+                    }
+                }
             }
         }
+        return tas
+    }
+
+    fun getDeclaration(token: String): Map<String,Any> {
+        var data = mutableMapOf<String,Any>()
+        var id = 0
+        var phone = ""
+        transaction {
+            Accounts.select { _token eq token }.forEach {
+                id = it[Accounts._id]
+                phone = it[_phone]
+            }
+            IPSix.select { _user_id eq id }.forEach { tb ->
+                data["inn"] = tb[IPSix._inn]
+                data["kpp"] = ""
+                data["fio_f"] = tb[IPSix._last_name]
+                data["fio_i"] = tb[IPSix._first_name]
+                data["fio_o"] = tb[IPSix._patronymic]
+                data["mob_n"] = phone
+                data["n_p_k"] = ""
+                data["o_year"] = Calendar.getInstance().get(Calendar.YEAR)
+                data["nal_co"] = tb[IPSix._inn_department]
+                data["resp_id"] = 1
+                data["day"] = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                data["mounth"] = Calendar.getInstance().get(Calendar.MONTH); //
+                data["year"] = Calendar.getInstance().get(Calendar.YEAR);
+            }
+        }
+        return data
     }
 
 }
@@ -116,4 +153,6 @@ object Agents: Table() {
     val _id = integer("id").primaryKey()
     val _name = text("name")
     val _pic = text("pic") //url
+    val type = text("type")
+    val category = text("category")
 }

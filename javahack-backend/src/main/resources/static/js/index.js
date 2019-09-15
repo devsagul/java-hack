@@ -6,48 +6,32 @@ function elem(id) {
 const flexbox = document.getElementsByClassName('flexbox')[0];
 
 async function fetching() {
-    await fetch("http://localhost:80/")
+    await fetch("/test")
         .then(response=>{
             return response.json()
         })
         .then(function (defs) {
             resp=defs;
-            console.log(defs);
-        })
-        .catch(
-            // Отправить на сервер для метрики
-        );
-    /*
-        resp =
-            {
-            question:'Ты пишешь на Kotlin?',
-            id:0,
-            "childs":
-                [
-                    {"id":1,"answer":"да"},
-                    {"id":2,"answer":"нет"}
-                ]
-        };
-        resp =
-        {
-            question:'Ты пишешь на Kotlin?',
-            id:0,
-            input:true
-        };
-
- */
-        elem("question").innerHTML = `<h1> <span style="color: red;">${index}</span>. ${resp.question}</h1>`;
-        if (resp.childs) {
-            for (let x = 0; x < 10; x++) {
-                publishPost(resp.childs[0]);
+            elem("question").innerHTML = `<h1> <span style="color: red;">${index}</span>. ${resp.question}</h1>`;
+            if (resp.childs) {
+                for (let x = 0; x < resp.childs.length; x++) {
+                    publishPost(resp.childs[x]);
+                }
+                index++;
             }
-            index++;
-        }
-        else{
-            publishInput(resp);
-        }
+            else{
+                publishInput(resp);
+            }
+        })
+        .catch(() => {
+            elem("question").innerHTML = `<h1 style="  font-family: sans-serif;
+  background: #222;
+  color: darkred;
+    text-shadow: 2px 0 0 #fff, -2px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, 1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+">ERROR, can't establish connection to server! </h1>`});
 }
 fetching();
+
 function publishPost(post){
     const node = document.createElement("div");
     node.className = 'item ' + post.id;

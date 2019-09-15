@@ -57,7 +57,7 @@
 }
 .imgOnSmall{
     top: -25px;!important;
-    left: 120px;!important;
+    left: 30%;!important;
 
 
 }
@@ -279,7 +279,8 @@ input[type=text]:focus {
 }
 /*********************************************** HEADER ***********************************************/
 header {
-    top: 0;
+    position: relative;
+    top: -40px;
     height: 80px;
 }
 .header-menu {
@@ -299,8 +300,8 @@ header {
     transition: background .3s;
 }
 .header-menu-tab:hover {
-    background: #50597b;
-    border-bottom: 4px solid #11a8ab;
+    background: #2b2b2b;
+    border-bottom: 4px solid #e8e000;
     text-decoration: none;
 }
 .header-menu-tab .icon {
@@ -360,11 +361,31 @@ header {
 .left-container {}
 .menu-box {
     position: relative;
-    left: 25%;
+    left: 45%;
     height: 360px;
 }
+@media screen and (max-width: 1000px) {
+ .menu-box{
+     background: white;
+     left: 10%;
+ }
+}
+@media screen and (max-width: 700px) {
+    .menu-box{
+        background: red;
+        left: 4%;
+    }
+}
+@media screen and (max-width: 400px) {
+    .menu-box{
+        background: aqua;
+        left: 5%;
+    }
+}
+
 .menu-box .titular {
-    background: #a49c26;
+    border: dashed 5px black;/
+    background: #e8e000;
 }
 .menu-box-menu .icon {
     display: inline-block;

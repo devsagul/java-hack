@@ -32,6 +32,8 @@ import io.ktor.response.*
 import io.ktor.routing.route
 import io.ktor.sessions.*
 import io.ktor.util.getDigestFunction
+import java.io.File
+import java.io.InputStream
 import java.lang.IllegalArgumentException
 import java.util.*
 
@@ -91,13 +93,19 @@ fun main(args: Array<String>) {
                 val session = call.sessions.get<LoginSession>()
                 if (session?.token != null) {
                     val client = HttpClient()
+                    val dec = db.getDeclaration(session?.token)
                     val request = client.request<String> {
                         url("localhost:5000/declaration")
                         method = HttpMethod.Post
                         body = MultiPartFormDataContent(formData {
-                            append("key", "value")
+                            dec.forEach { d ->
+                                append(d.key, d.value.toString())
+                            }
                         })
                     }
+                    val file = File("tmp.pdf")
+                    file.copyInputStreamToFile(request.byteInputStream())
+                    call.respondBytes(file.readBytes())
                 } else {
                     call.respondText("Login first")
                 }
@@ -141,4 +149,11 @@ fun main(args: Array<String>) {
         }
     }
     server.start(wait = true)
+}
+fun File.copyInputStreamToFile(inputStream: InputStream) {
+    inputStream.use { input ->
+        this.outputStream().use { fileOut ->
+            input.copyTo(fileOut)
+        }
+    }
 }

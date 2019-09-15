@@ -12,6 +12,7 @@ import lambda.javahack.backend.Transaction._sum
 import lambda.javahack.backend.Transaction._user_id
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.*
 import kotlin.random.Random
 
 class DBHelper {
@@ -90,6 +91,34 @@ class DBHelper {
             }
         }
         return tas
+    }
+
+    fun getDeclaration(token: String): Map<String,Any> {
+        var data = mutableMapOf<String,Any>()
+        var id = 0
+        var phone = ""
+        transaction {
+            Accounts.select { _token eq token }.forEach {
+                id = it[Accounts._id]
+                phone = it[_phone]
+            }
+            IPSix.select { _user_id eq id }.forEach { tb ->
+                data["inn"] = tb[IPSix._inn]
+                data["kpp"] = ""
+                data["fio_f"] = tb[IPSix._last_name]
+                data["fio_i"] = tb[IPSix._first_name]
+                data["fio_o"] = tb[IPSix._patronymic]
+                data["mob_n"] = phone
+                data["n_p_k"] = ""
+                data["o_year"] = Calendar.getInstance().get(Calendar.YEAR)
+                data["nal_co"] = tb[IPSix._inn_department]
+                data["resp_id"] = 1
+                data["day"] = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+                data["mounth"] = Calendar.getInstance().get(Calendar.MONTH); //
+                data["year"] = Calendar.getInstance().get(Calendar.YEAR);
+            }
+        }
+        return data
     }
 
 }

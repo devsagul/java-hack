@@ -6,7 +6,7 @@ function elem(id) {
 const flexbox = document.getElementsByClassName('flexbox')[0];
 
 async function fetching() {
-    await fetch("/test")
+    await fetch("/helper")
         .then(response=>{
             return response.json()
         })

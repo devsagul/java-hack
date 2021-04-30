@@ -9,6 +9,6 @@ pybars3==0.9.6
 PyMeta3==0.5.1
 PyPDF2==1.26.0
 selenium==3.141.0
-urllib3==1.25.3
+urllib3==1.25.8
 Werkzeug==0.15.6
 WTForms==2.2.1
